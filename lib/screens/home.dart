@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordle_turkce/widgets/change_theme_button_widget.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -15,40 +16,42 @@ class _HomeState extends State<Home> {
       attempt4 = "",
       attempt5 = "",
       attempt6 = "";
-  
-  final String wordle = "zevce".toLowerCase();
+
+  final String wordle = "kebap".toLowerCase();
 
   final TextStyle _textStyle =
-      const TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
-  final _defaultContainerColor = Colors.blueGrey[900];
+      const TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 24);
+
+  final _defaultContainerColor = Colors.grey.shade800;
   final _wrongSpotContainerColor = Colors.amber;
   final _correctSpotContainerColor = Colors.green[700];
 
-  var attempt1LetterStyles = List<Color>.filled(5, Colors.blueGrey[900]!);
-  var attempt2LetterStyles = List<Color>.filled(5, Colors.blueGrey[900]!);
-  var attempt3LetterStyles = List<Color>.filled(5, Colors.blueGrey[900]!);
-  var attempt4LetterStyles = List<Color>.filled(5, Colors.blueGrey[900]!);
-  var attempt5LetterStyles = List<Color>.filled(5, Colors.blueGrey[900]!);
-  var attempt6LetterStyles = List<Color>.filled(5, Colors.blueGrey[900]!);
-  var wordleHash = Map<String,List<int>>();
+  var attempt1LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+  var attempt2LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+  var attempt3LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+  var attempt4LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+  var attempt5LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+  var attempt6LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+
+  var wordleHash = <String, List<int>>{};
 
   final inputController = TextEditingController();
-  
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     // initalize wordle as hash map
-    for(var i =0; i < wordle.length;i++){
+    for (var i = 0; i < wordle.length; i++) {
       if (!wordleHash.containsKey(wordle[i])) {
-        wordleHash[wordle[i]]=[];
-        wordleHash[wordle[i]]?.add(i);        
-      }else{
-        wordleHash[wordle[i]]?.add(i);        
+        wordleHash[wordle[i]] = [];
+        wordleHash[wordle[i]]?.add(i);
+      } else {
+        wordleHash[wordle[i]]?.add(i);
       }
     }
   }
-  
+
   void _clearInput() {
     inputController.clear();
   }
@@ -61,22 +64,21 @@ class _HomeState extends State<Home> {
     }
   }
 
-
-
-  void _handleAttemptLetterStyle(List<Color> attemptLetterStyles,String attempt){
+  void _handleAttemptLetterStyle(
+      List<Color> attemptLetterStyles, String attempt) {
     var attemptHash = List.filled(5, false);
     var tempWordle = List.from(wordle.characters);
-    for(var i = 0; i < wordle.length;i++){
-        if (wordle[i]==attempt[i]) {
-          attemptLetterStyles[i]=_correctSpotContainerColor!;
-          attemptHash[i]=true;
-          tempWordle[i]="";
-        }
+    for (var i = 0; i < wordle.length; i++) {
+      if (wordle[i] == attempt[i]) {
+        attemptLetterStyles[i] = _correctSpotContainerColor!;
+        attemptHash[i] = true;
+        tempWordle[i] = "";
+      }
     }
 
     for (var i = 0; i < wordle.length; i++) {
-      if (attemptHash[i]!=true && tempWordle.contains(attempt[i])) {
-          attemptLetterStyles[i]=_wrongSpotContainerColor;
+      if (attemptHash[i] != true && tempWordle.contains(attempt[i])) {
+        attemptLetterStyles[i] = _wrongSpotContainerColor;
       }
     }
   }
@@ -86,6 +88,7 @@ class _HomeState extends State<Home> {
       children: [
         Expanded(
           child: GridView.count(
+            scrollDirection: Axis.vertical,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             primary: false,
@@ -313,110 +316,117 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        TextField(
-          controller: inputController,
-          autofocus: true,
-          maxLength: 5,
-          onChanged: (value) {
-            switch (attemptCtr) {
-              case 0:
-                setState(() {
-                  attempt1 = value.toLowerCase();
-                });
-                break;
-              case 1:
-                setState(() {
-                  attempt2 = value.toLowerCase();
-                });
-                break;
-              case 2:
-                setState(() {
-                  attempt3 = value.toLowerCase();
-                });
-                break;
-              case 3:
-                setState(() {
-                  attempt4 = value.toLowerCase();
-                });
-                break;
-              case 4:
-                setState(() {
-                  attempt5 = value.toLowerCase();
-                });
-                break;
-              case 5:
-                setState(() {
-                  attempt6 = value.toLowerCase();
-                });
-                break;
-              default:
-            }
-          },
-          onSubmitted: (value) {
-            var conditionOnAttemptCount = attemptCtr;
-            switch (conditionOnAttemptCount) {
-              case 0:
-                if (attempt1.length == 5) {
-                  setState(() {
-                    attemptCtr++;
-                    _handleAttemptLetterStyle(attempt1LetterStyles,attempt1);
-                  });
-                  _clearInput();
+        Padding(
+          padding: const EdgeInsets.only(top:30,left: 50, right: 50, bottom:30),
+          child: Container(
+            decoration: BoxDecoration(
+              color: _defaultContainerColor,
+              borderRadius: const BorderRadius.all(Radius.circular(5)),
+              border: Border.all(
+                color: Colors.white
+              )
+            ),
+            child: TextField(
+              controller: inputController,
+              autofocus: true,
+              maxLength: 5,
+              onChanged: (value) {
+                switch (attemptCtr) {
+                  case 0:
+                    setState(() {
+                      attempt1 = value.toLowerCase();
+                    });
+                    break;
+                  case 1:
+                    setState(() {
+                      attempt2 = value.toLowerCase();
+                    });
+                    break;
+                  case 2:
+                    setState(() {
+                      attempt3 = value.toLowerCase();
+                    });
+                    break;
+                  case 3:
+                    setState(() {
+                      attempt4 = value.toLowerCase();
+                    });
+                    break;
+                  case 4:
+                    setState(() {
+                      attempt5 = value.toLowerCase();
+                    });
+                    break;
+                  case 5:
+                    setState(() {
+                      attempt6 = value.toLowerCase();
+                    });
+                    break;
+                  default:
                 }
-                break;
-              case 1:
-                if (attempt2.length == 5) {
-                  setState(() {
-                    attemptCtr++;
-                    _handleAttemptLetterStyle(attempt2LetterStyles,attempt2);
-
-                  });
-                  _clearInput();
+              },
+              onSubmitted: (value) {
+                var conditionOnAttemptCount = attemptCtr;
+                switch (conditionOnAttemptCount) {
+                  case 0:
+                    if (attempt1.length == 5) {
+                      setState(() {
+                        attemptCtr++;
+                        _handleAttemptLetterStyle(attempt1LetterStyles, attempt1);
+                      });
+                      _clearInput();
+                    }
+                    break;
+                  case 1:
+                    if (attempt2.length == 5) {
+                      setState(() {
+                        attemptCtr++;
+                        _handleAttemptLetterStyle(attempt2LetterStyles, attempt2);
+                      });
+                      _clearInput();
+                    }
+                    break;
+                  case 2:
+                    if (attempt3.length == 5) {
+                      setState(() {
+                        attemptCtr++;
+                        _handleAttemptLetterStyle(attempt3LetterStyles, attempt3);
+                      });
+                      _clearInput();
+                    }
+                    break;
+                  case 3:
+                    if (attempt4.length == 5) {
+                      setState(() {
+                        attemptCtr++;
+                        _handleAttemptLetterStyle(attempt4LetterStyles, attempt4);
+                      });
+                      _clearInput();
+                    }
+                    break;
+                  case 4:
+                    if (attempt5.length == 5) {
+                      setState(() {
+                        attemptCtr++;
+                        _handleAttemptLetterStyle(attempt5LetterStyles, attempt5);
+                      });
+                      _clearInput();
+                    }
+                    break;
+                  case 5:
+                    if (attempt6.length == 5) {
+                      setState(() {
+                        // last attempt requires different handling
+                        _handleAttemptLetterStyle(attempt6LetterStyles, attempt6);
+                      });
+                      _clearInput();
+                    }
+                    break;
+                  default:
                 }
-                break;
-              case 2:
-                if (attempt3.length == 5) {
-                  setState(() {
-                    attemptCtr++;
-                    _handleAttemptLetterStyle(attempt3LetterStyles,attempt3);
-
-                  });
-                  _clearInput();
-                }
-                break;
-              case 3:
-                if (attempt4.length == 5) {
-                  setState(() {
-                    attemptCtr++;
-                    _handleAttemptLetterStyle(attempt4LetterStyles,attempt4);
-
-                  });
-                  _clearInput();
-                }
-                break;
-              case 4:
-                if (attempt5.length == 5) {
-                  setState(() {
-                    attemptCtr++;
-                    _handleAttemptLetterStyle(attempt5LetterStyles,attempt5);
-
-                  });
-                  _clearInput();
-                }
-                break;
-              case 5:
-                if (attempt6.length == 5) {
-                  setState(() {
-                    // last attempt requires different handling
-                    _handleAttemptLetterStyle(attempt6LetterStyles,attempt6);
-
-                  });
-                  _clearInput();
-                }
-                break;
-              default:
-            }
-          },
+              },
+            ),
+          ),
         )
       ],
     );
@@ -426,8 +436,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Wordle Türkçe"),
+        title: const Text("WORDLE TÜRKÇE"),
         centerTitle: true,
+        actions: [
+          ChangeThemeButtonWidget(),
+        ],
       ),
       body: _buildGameBody(),
     );

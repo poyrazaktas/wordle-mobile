@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wordle_turkce/provider/theme_provider.dart';
 import 'package:wordle_turkce/screens/home.dart';
 
 void main() {
@@ -10,12 +12,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Wordle Türkçe',
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
-      ),
-      home: const Home(),
-    );
+    return ChangeNotifierProvider(
+        create: (context) => ThemeProvider(),
+        builder: (context, _) {
+          final themeProvider = Provider.of<ThemeProvider>(context);
+          return MaterialApp(
+            title: 'WORDLE TÜRKÇE',
+            themeMode: themeProvider.themeMode,
+            theme: MyThemes.lightTheme,
+            darkTheme: MyThemes.darkTheme,
+            home: const Home(),
+          );
+        });
   }
 }
