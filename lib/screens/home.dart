@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wordle_turkce/widgets/change_theme_button_widget.dart';
+import 'package:wordle_turkce/widgets/how_to_play_widget.dart';
+import 'package:wordle_turkce/widgets/settings_widget.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -478,10 +480,20 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+          child: const Icon(Icons.help),
+          onTap: () => showDialog(
+              context: context, builder: (BuildContext context) => HowToPlay()),
+        ),
         title: const Text("WORDLE TÜRKÇE"),
         centerTitle: true,
         actions: [
-          ChangeThemeButtonWidget(),
+          GestureDetector(
+            child: const Icon(Icons.settings),
+            onTap: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => const Settings()),
+          ),
         ],
       ),
       body: _buildGameBody(),
