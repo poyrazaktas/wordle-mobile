@@ -19,8 +19,8 @@ class _HomeState extends State<Home> {
 
   final String wordle = "çeşni".toLowerCase();
 
-  final TextStyle _textStyle =
-      const TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 24);
+  final TextStyle _textStyle = const TextStyle(
+      color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24);
 
   final _defaultContainerColor = Colors.grey.shade800;
   final _wrongSpotContainerColor = Colors.amber;
@@ -56,6 +56,36 @@ class _HomeState extends State<Home> {
     inputController.clear();
   }
 
+  void _showResult(String attempt, String successMessage) {
+    if (attempt.toLowerCase() == wordle) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Stack(
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Positioned(
+                    right: -40.0,
+                    top: -40.0,
+                    child: InkResponse(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const CircleAvatar(
+                        child: Icon(Icons.close),
+                        backgroundColor: Colors.red,
+                      ),
+                    ),
+                  ),
+                  Text(successMessage),
+                ],
+              ),
+            );
+          });
+    }
+  }
+
   String _createLetter(String attempt, index) {
     try {
       return attempt[index].replaceAll("i", "İ").toUpperCase();
@@ -79,7 +109,7 @@ class _HomeState extends State<Home> {
     for (var i = 0; i < wordle.length; i++) {
       if (attemptHash[i] != true && tempWordle.contains(attempt[i])) {
         attemptLetterStyles[i] = _wrongSpotContainerColor;
-        tempWordle[tempWordle.indexOf(attempt[i])]="";
+        tempWordle[tempWordle.indexOf(attempt[i])] = "";
       }
       // print(tempWordle.join("").toString());
     }
@@ -319,15 +349,13 @@ class _HomeState extends State<Home> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top:30,left: 50, right: 50, bottom:30),
+          padding:
+              const EdgeInsets.only(top: 30, left: 50, right: 50, bottom: 30),
           child: Container(
             decoration: BoxDecoration(
-              color: _defaultContainerColor,
-              borderRadius: const BorderRadius.all(Radius.circular(5)),
-              border: Border.all(
-                color: Colors.white
-              )
-            ),
+                color: _defaultContainerColor,
+                borderRadius: const BorderRadius.all(Radius.circular(5)),
+                border: Border.all(color: Colors.white)),
             child: TextField(
               controller: inputController,
               autofocus: true,
@@ -374,8 +402,10 @@ class _HomeState extends State<Home> {
                     if (attempt1.length == 5) {
                       setState(() {
                         attemptCtr++;
-                        _handleAttemptLetterStyle(attempt1LetterStyles, attempt1);
+                        _handleAttemptLetterStyle(
+                            attempt1LetterStyles, attempt1);
                       });
+                      _showResult(value, "Dahisin!");
                       _clearInput();
                     }
                     break;
@@ -383,8 +413,10 @@ class _HomeState extends State<Home> {
                     if (attempt2.length == 5) {
                       setState(() {
                         attemptCtr++;
-                        _handleAttemptLetterStyle(attempt2LetterStyles, attempt2);
+                        _handleAttemptLetterStyle(
+                            attempt2LetterStyles, attempt2);
                       });
+                      _showResult(value, "Harika!");
                       _clearInput();
                     }
                     break;
@@ -392,8 +424,10 @@ class _HomeState extends State<Home> {
                     if (attempt3.length == 5) {
                       setState(() {
                         attemptCtr++;
-                        _handleAttemptLetterStyle(attempt3LetterStyles, attempt3);
+                        _handleAttemptLetterStyle(
+                            attempt3LetterStyles, attempt3);
                       });
+                      _showResult(value, "Etkileyici!");
                       _clearInput();
                     }
                     break;
@@ -401,8 +435,10 @@ class _HomeState extends State<Home> {
                     if (attempt4.length == 5) {
                       setState(() {
                         attemptCtr++;
-                        _handleAttemptLetterStyle(attempt4LetterStyles, attempt4);
+                        _handleAttemptLetterStyle(
+                            attempt4LetterStyles, attempt4);
                       });
+                      _showResult(value, "Parlak Zeka!");
                       _clearInput();
                     }
                     break;
@@ -410,8 +446,10 @@ class _HomeState extends State<Home> {
                     if (attempt5.length == 5) {
                       setState(() {
                         attemptCtr++;
-                        _handleAttemptLetterStyle(attempt5LetterStyles, attempt5);
+                        _handleAttemptLetterStyle(
+                            attempt5LetterStyles, attempt5);
                       });
+                      _showResult(value, "Çok İyi!");
                       _clearInput();
                     }
                     break;
@@ -419,8 +457,10 @@ class _HomeState extends State<Home> {
                     if (attempt6.length == 5) {
                       setState(() {
                         // last attempt requires different handling
-                        _handleAttemptLetterStyle(attempt6LetterStyles, attempt6);
+                        _handleAttemptLetterStyle(
+                            attempt6LetterStyles, attempt6);
                       });
+                      _showResult(value, "Ehh...!");
                       _clearInput();
                     }
                     break;
