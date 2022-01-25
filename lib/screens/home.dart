@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
       attempt5 = "",
       attempt6 = "";
 
-  final String wordle = "kasap".toLowerCase();
+  final String wordle = "çeşni".toLowerCase();
 
   final TextStyle _textStyle =
       const TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 24);
@@ -58,7 +58,7 @@ class _HomeState extends State<Home> {
 
   String _createLetter(String attempt, index) {
     try {
-      return attempt[index];
+      return attempt[index].replaceAll("i", "İ").toUpperCase();
     } catch (e) {
       return "";
     }
