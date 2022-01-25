@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
       attempt5 = "",
       attempt6 = "";
 
-  final String wordle = "kebap".toLowerCase();
+  final String wordle = "kasap".toLowerCase();
 
   final TextStyle _textStyle =
       const TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 24);
@@ -79,7 +79,9 @@ class _HomeState extends State<Home> {
     for (var i = 0; i < wordle.length; i++) {
       if (attemptHash[i] != true && tempWordle.contains(attempt[i])) {
         attemptLetterStyles[i] = _wrongSpotContainerColor;
+        tempWordle[tempWordle.indexOf(attempt[i])]="";
       }
+      // print(tempWordle.join("").toString());
     }
   }
 
