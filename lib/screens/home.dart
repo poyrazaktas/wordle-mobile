@@ -26,8 +26,8 @@ class _HomeState extends State<Home> {
       color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24);
 
   final _defaultContainerColor = Colors.grey.shade800;
-  late Color _wrongSpotContainerColor;
-  late Color _correctSpotContainerColor;
+
+  late ColorBlindModeProvider _colorBlindModeProvider;
 
   var attempt1LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
   var attempt2LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
@@ -41,13 +41,8 @@ class _HomeState extends State<Home> {
   final inputController = TextEditingController();
 
   void initContainerStyles() {
-    var colorBlindModeProvider =
+    _colorBlindModeProvider =
         Provider.of<ColorBlindModeProvider>(context, listen: false);
-
-    _wrongSpotContainerColor =
-        colorBlindModeProvider.colorBlindMode.wrongSpotContainerColor;
-    _correctSpotContainerColor =
-        colorBlindModeProvider.colorBlindMode.correctSpotContainerColor;
   }
 
   @override
@@ -114,7 +109,7 @@ class _HomeState extends State<Home> {
     var tempWordle = List.from(wordle.characters);
     for (var i = 0; i < wordle.length; i++) {
       if (wordle[i] == attempt[i]) {
-        attemptLetterStyles[i] = _correctSpotContainerColor;
+        attemptLetterStyles[i] = _colorBlindModeProvider.colorBlindMode.correctSpotContainerColor;
         attemptHash[i] = true;
         tempWordle[i] = "";
       }
@@ -122,7 +117,7 @@ class _HomeState extends State<Home> {
 
     for (var i = 0; i < wordle.length; i++) {
       if (attemptHash[i] != true && tempWordle.contains(attempt[i])) {
-        attemptLetterStyles[i] = _wrongSpotContainerColor;
+        attemptLetterStyles[i] = _colorBlindModeProvider.colorBlindMode.wrongSpotContainerColor;
         tempWordle[tempWordle.indexOf(attempt[i])] = "";
       }
       // print(tempWordle.join("").toString());

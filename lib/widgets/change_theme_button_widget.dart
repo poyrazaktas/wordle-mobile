@@ -13,9 +13,8 @@ class _ChangeThemeButtonWidgetState extends State<ChangeThemeButtonWidget> {
   late SharedPreferences _prefs;
   late bool isDarkMode;
 
-  void _initSharedPrefs()async{
-    _prefs =  await SharedPreferences.getInstance();
-
+  void _initSharedPrefs() async {
+    _prefs = await SharedPreferences.getInstance();
   }
 
   @override
@@ -23,7 +22,6 @@ class _ChangeThemeButtonWidgetState extends State<ChangeThemeButtonWidget> {
     // TODO: implement initState
     _initSharedPrefs();
     super.initState();
-
   }
 
   @override
