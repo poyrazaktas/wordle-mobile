@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wordle_turkce/widgets/change_theme_button_widget.dart';
+import 'package:provider/provider.dart';
+import 'package:wordle_turkce/provider/color_blind_mode_provider.dart';
 import 'package:wordle_turkce/widgets/how_to_play_widget.dart';
 import 'package:wordle_turkce/widgets/settings_widget.dart';
 
@@ -25,8 +26,8 @@ class _HomeState extends State<Home> {
       color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24);
 
   final _defaultContainerColor = Colors.grey.shade800;
-  final _wrongSpotContainerColor = Colors.amber;
-  final _correctSpotContainerColor = Colors.green[700];
+  late Color _wrongSpotContainerColor;
+  late Color _correctSpotContainerColor;
 
   var attempt1LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
   var attempt2LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
@@ -39,10 +40,21 @@ class _HomeState extends State<Home> {
 
   final inputController = TextEditingController();
 
+  void initContainerStyles() {
+    var colorBlindModeProvider =
+        Provider.of<ColorBlindModeProvider>(context, listen: false);
+
+    _wrongSpotContainerColor =
+        colorBlindModeProvider.colorBlindMode.wrongSpotContainerColor;
+    _correctSpotContainerColor =
+        colorBlindModeProvider.colorBlindMode.correctSpotContainerColor;
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    initContainerStyles();
     // initalize wordle as hash map
     for (var i = 0; i < wordle.length; i++) {
       if (!wordleHash.containsKey(wordle[i])) {
@@ -102,7 +114,7 @@ class _HomeState extends State<Home> {
     var tempWordle = List.from(wordle.characters);
     for (var i = 0; i < wordle.length; i++) {
       if (wordle[i] == attempt[i]) {
-        attemptLetterStyles[i] = _correctSpotContainerColor!;
+        attemptLetterStyles[i] = _correctSpotContainerColor;
         attemptHash[i] = true;
         tempWordle[i] = "";
       }

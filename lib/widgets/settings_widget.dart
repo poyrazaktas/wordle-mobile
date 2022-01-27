@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordle_turkce/widgets/change_color_blind_mode_button_widget.dart';
 import 'package:wordle_turkce/widgets/change_theme_button_widget.dart';
 
 class Settings extends StatelessWidget {
@@ -8,7 +9,7 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Container(
-        height: MediaQuery.of(context).size.height/4,
+        height: MediaQuery.of(context).size.height / 4,
         width: MediaQuery.of(context).size.width,
         child: Stack(
           overflow: Overflow.visible,
@@ -45,6 +46,13 @@ class Settings extends StatelessWidget {
                   children: [
                     const Text("Koyu Tema"),
                     ChangeThemeButtonWidget()
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("Renk Körü Modu"),
+                    ChangeColorBlindModeButtonWidget()
                   ],
                 ),
               ],
