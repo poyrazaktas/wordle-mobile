@@ -44,15 +44,15 @@ class Settings extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Koyu Tema"),
-                    ChangeThemeButtonWidget()
+                    const Text("Renk Körü Modu"),
+                    ChangeColorBlindModeButtonWidget()
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Renk Körü Modu"),
-                    ChangeColorBlindModeButtonWidget()
+                    const Text("Koyu Tema"),
+                    ChangeThemeButtonWidget()
                   ],
                 ),
               ],
