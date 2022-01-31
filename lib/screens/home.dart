@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
       attempt5 = "",
       attempt6 = "";
 
-  final String wordle = "çeşni".toLowerCase();
+  final String wordle = "ampul".toLowerCase();
 
   final TextStyle _textStyle = const TextStyle(
       color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24);
@@ -45,9 +45,25 @@ class _HomeState extends State<Home> {
         Provider.of<ColorBlindModeProvider>(context, listen: false);
   }
 
+  void resetWordleElements() {
+    attemptCtr = 0;
+    attempt1 = "";
+    attempt2 = "";
+    attempt3 = "";
+    attempt4 = "";
+    attempt5 = "";
+    attempt6 = "";
+
+    attempt1LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+    attempt2LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+    attempt3LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+    attempt4LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+    attempt5LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+    attempt6LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initContainerStyles();
     // initalize wordle as hash map
@@ -92,6 +108,46 @@ class _HomeState extends State<Home> {
               ),
             );
           });
+
+      setState(() {
+        // wordle wordles tablosundan kaldırılacak
+        // random wordle databaseden gelecek
+        // attemptCtr
+        resetWordleElements();
+      });
+    } else if (attempt.toLowerCase() != wordle && attemptCtr == 6) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Stack(
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Positioned(
+                    right: -40.0,
+                    top: -40.0,
+                    child: InkResponse(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const CircleAvatar(
+                        child: Icon(Icons.close),
+                        backgroundColor: Colors.red,
+                      ),
+                    ),
+                  ),
+                  const Text(
+                      "Malesef bu Wordle'i doğru tahmin edemediniz. Sıradaki Wordle yükleniyor..."),
+                ],
+              ),
+            );
+          });
+      setState(() {
+        // wordle wordles tablosundan kaldırılacak
+        // random wordle databaseden gelecek
+        // attemptCtr
+        resetWordleElements();
+      });
     }
   }
 
@@ -109,7 +165,8 @@ class _HomeState extends State<Home> {
     var tempWordle = List.from(wordle.characters);
     for (var i = 0; i < wordle.length; i++) {
       if (wordle[i] == attempt[i]) {
-        attemptLetterStyles[i] = _colorBlindModeProvider.colorBlindMode.correctSpotContainerColor;
+        attemptLetterStyles[i] =
+            _colorBlindModeProvider.colorBlindMode.correctSpotContainerColor;
         attemptHash[i] = true;
         tempWordle[i] = "";
       }
@@ -117,7 +174,8 @@ class _HomeState extends State<Home> {
 
     for (var i = 0; i < wordle.length; i++) {
       if (attemptHash[i] != true && tempWordle.contains(attempt[i])) {
-        attemptLetterStyles[i] = _colorBlindModeProvider.colorBlindMode.wrongSpotContainerColor;
+        attemptLetterStyles[i] =
+            _colorBlindModeProvider.colorBlindMode.wrongSpotContainerColor;
         tempWordle[tempWordle.indexOf(attempt[i])] = "";
       }
       // print(tempWordle.join("").toString());
@@ -465,7 +523,7 @@ class _HomeState extends State<Home> {
                   case 5:
                     if (attempt6.length == 5) {
                       setState(() {
-                        // last attempt requires different handling
+                        attemptCtr++;
                         _handleAttemptLetterStyle(
                             attempt6LetterStyles, attempt6);
                       });
