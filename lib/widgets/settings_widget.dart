@@ -8,7 +8,7 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: Container(
+      content: SizedBox(
         height: MediaQuery.of(context).size.height / 4,
         width: MediaQuery.of(context).size.width,
         child: Stack(

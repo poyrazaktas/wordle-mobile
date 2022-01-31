@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle_turkce/provider/color_blind_mode_provider.dart';
 
 class ChangeColorBlindModeButtonWidget extends StatefulWidget {
+  const ChangeColorBlindModeButtonWidget({Key? key}) : super(key: key);
+
   @override
   State<ChangeColorBlindModeButtonWidget> createState() =>
       _ChangeColorBlindModeButtonWidgetState();
@@ -20,14 +22,12 @@ class _ChangeColorBlindModeButtonWidgetState
 
   @override
   void initState() {
-    // TODO: implement initState
     _initSharedPrefs();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final colorBlindModeProvider = Provider.of<ColorBlindModeProvider>(context);
 
     return Switch.adaptive(
         value: _prefs.getBool("isColorBlindModeActive")!,

@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle_turkce/provider/theme_provider.dart';
 
 class ChangeThemeButtonWidget extends StatefulWidget {
+  const ChangeThemeButtonWidget({Key? key}) : super(key: key);
+
   @override
   State<ChangeThemeButtonWidget> createState() =>
       _ChangeThemeButtonWidgetState();
@@ -19,14 +21,12 @@ class _ChangeThemeButtonWidgetState extends State<ChangeThemeButtonWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _initSharedPrefs();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return Switch.adaptive(
         value: _prefs.getBool("isDarkMode")!,
         activeColor: Colors.lightGreenAccent.shade700,

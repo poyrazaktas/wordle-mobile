@@ -13,7 +13,7 @@ class HowToPlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: Container(
+      content: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Stack(
@@ -37,7 +37,7 @@ class HowToPlay extends StatelessWidget {
                 const Text("NASIL OYNANIR?\n",style: TextStyle(fontWeight: FontWeight.bold),),
                 const Text("WORDLE'i 6 denemede bulun.\n"),
                 const Text(
-                    "Her tahmin 5 ha,rfli doğru bir kelime olmalıdır. Göndermek için enter'a basın.\n"),
+                    "Her tahmin 5 harfli doğru bir kelime olmalıdır. Göndermek için enter'a basın.\n"),
                 const Text(
                     "Her tahminden sonra kutucukların renkleri tahmininizin yakınlığına göre değişecektir.\n"),
                 const Divider(thickness: 2.0,),
