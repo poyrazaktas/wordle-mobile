@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:wordle_turkce/provider/color_blind_mode_provider.dart';
 import 'package:wordle_turkce/widgets/how_to_play_widget.dart';
 import 'package:wordle_turkce/widgets/settings_widget.dart';
+import 'package:clipboard/clipboard.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class _HomeState extends State<Home> {
       attempt5 = "",
       attempt6 = "";
 
-  final String wordle = "ampul".toLowerCase();
+  final String wordle = "kebap".toLowerCase();
 
   final TextStyle _textStyle = const TextStyle(
       color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24);
@@ -81,73 +82,104 @@ class _HomeState extends State<Home> {
     inputController.clear();
   }
 
+  // X : default container color : ⬛
+  // C : correct container color : 🟩
+  // W : wrong container color : 🟨
+
+  String _maskLetters(attempt) {
+    var attemptHash = List.filled(5, false);
+    var tempWordle = List.from(wordle.characters);
+    List<String> attemptMask = List.filled(5, "⬛");
+
+    for (var i = 0; i < wordle.length; i++) {
+      if (wordle[i] == attempt[i]) {
+        attemptMask[i] = "🟩";
+        attemptHash[i] = true;
+        tempWordle[i] = "";
+      }
+    }
+
+    for (var i = 0; i < wordle.length; i++) {
+      if (attemptHash[i] != true && tempWordle.contains(attempt[i])) {
+        attemptMask[i] = "🟨";
+        tempWordle[tempWordle.indexOf(attempt[i])] = "";
+      }
+    }
+    return attemptMask.join("");
+  }
+
   void _showResult(String attempt, String successMessage) {
+    var attempts = [attempt1, attempt2, attempt3, attempt4, attempt5, attempt6];
+
+    var filteredAttempts = attempts.where((element) => element != "").toList();
+
+    var mappedAttempts =
+        filteredAttempts.map((element) => _maskLetters(element)).toList();
     if (attempt.toLowerCase() == wordle) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              content: Stack(
-                overflow: Overflow.visible,
-                children: <Widget>[
-                  Positioned(
-                    right: -40.0,
-                    top: -40.0,
-                    child: InkResponse(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const CircleAvatar(
-                        child: Icon(Icons.close),
-                        backgroundColor: Colors.red,
-                      ),
+              title: Text(successMessage),
+              actionsAlignment: MainAxisAlignment.spaceBetween,
+              actionsPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
+              actions: [
+                GestureDetector(
+                    child: const Icon(
+                      Icons.share,
+                      color: Colors.green,
                     ),
-                  ),
-                  Text(successMessage),
-                ],
-              ),
+                    onTap: () {
+                      FlutterClipboard.copy(mappedAttempts.join("\n"));
+                    }),
+                GestureDetector(
+                  child: const Text("Tekrar Oyna"),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    setState(() {
+                      // wordle wordles tablosundan kaldırılacak
+                      // random wordle databaseden gelecek
+                      // attemptCtr
+                      resetWordleElements();
+                    });
+                  },
+                )
+              ],
             );
           });
-
-      setState(() {
-        // wordle wordles tablosundan kaldırılacak
-        // random wordle databaseden gelecek
-        // attemptCtr
-        resetWordleElements();
-      });
     } else if (attempt.toLowerCase() != wordle && attemptCtr == 6) {
+      // it denotes there is no more attempts left
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              content: Stack(
-                overflow: Overflow.visible,
-                children: <Widget>[
-                  Positioned(
-                    right: -40.0,
-                    top: -40.0,
-                    child: InkResponse(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const CircleAvatar(
-                        child: Icon(Icons.close),
-                        backgroundColor: Colors.red,
-                      ),
+              title: const Text("Kaybettiniz"),
+              actionsAlignment: MainAxisAlignment.spaceBetween,
+              actionsPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
+              actions: [
+                GestureDetector(
+                    child: const Icon(
+                      Icons.share,
+                      color: Colors.green,
                     ),
-                  ),
-                  const Text(
-                      "Malesef bu Wordle'i doğru tahmin edemediniz. Sıradaki Wordle yükleniyor..."),
-                ],
-              ),
+                    onTap: () {
+                      FlutterClipboard.copy(mappedAttempts.join("\n"));
+                    }),
+                GestureDetector(
+                  child: const Text("Tekrar Oyna"),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    setState(() {
+                      // wordle wordles tablosundan kaldırılacak
+                      // random wordle databaseden gelecek
+                      // attemptCtr
+                      resetWordleElements();
+                    });
+                  },
+                )
+              ],
             );
           });
-      setState(() {
-        // wordle wordles tablosundan kaldırılacak
-        // random wordle databaseden gelecek
-        // attemptCtr
-        resetWordleElements();
-      });
     }
   }
 
