@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wordle_turkce/constants/words.dart';
 import 'package:wordle_turkce/provider/color_blind_mode_provider.dart';
 import 'package:wordle_turkce/widgets/how_to_play_widget.dart';
 import 'package:wordle_turkce/widgets/settings_widget.dart';
@@ -21,7 +22,7 @@ class _HomeState extends State<Home> {
       attempt5 = "",
       attempt6 = "";
 
-  final String wordle = "kebap".toLowerCase();
+  final String wordle = "hızma".toLowerCase();
 
   final TextStyle _textStyle = const TextStyle(
       color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24);
@@ -499,68 +500,122 @@ class _HomeState extends State<Home> {
                 switch (conditionOnAttemptCount) {
                   case 0:
                     if (attempt1.length == 5) {
-                      setState(() {
-                        attemptCtr++;
-                        _handleAttemptLetterStyle(
-                            attempt1LetterStyles, attempt1);
-                      });
-                      _showResult(value, "Dahisin!");
-                      _clearInput();
+                      if (Words.words.contains(attempt1)) {
+                        setState(() {
+                          attemptCtr++;
+                          _handleAttemptLetterStyle(
+                              attempt1LetterStyles, attempt1);
+                        });
+                        _showResult(value, "Dahisin!");
+                        _clearInput();
+                      } else {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Text(
+                                  "$attempt1 doğru bir 5 harfli kelime değil!");
+                            });
+                      }
                     }
                     break;
                   case 1:
                     if (attempt2.length == 5) {
-                      setState(() {
-                        attemptCtr++;
-                        _handleAttemptLetterStyle(
-                            attempt2LetterStyles, attempt2);
-                      });
-                      _showResult(value, "Harika!");
-                      _clearInput();
+                      if (Words.words.contains(attempt2)) {
+                        setState(() {
+                          attemptCtr++;
+                          _handleAttemptLetterStyle(
+                              attempt2LetterStyles, attempt2);
+                        });
+                        _showResult(value, "Harika!");
+                        _clearInput();
+                      } else {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Text(
+                                  "$attempt2 doğru bir 5 harfli kelime değil!");
+                            });
+                      }
                     }
                     break;
                   case 2:
                     if (attempt3.length == 5) {
-                      setState(() {
-                        attemptCtr++;
-                        _handleAttemptLetterStyle(
-                            attempt3LetterStyles, attempt3);
-                      });
-                      _showResult(value, "Etkileyici!");
-                      _clearInput();
+                      if (Words.words.contains(attempt3)) {
+                        setState(() {
+                          attemptCtr++;
+                          _handleAttemptLetterStyle(
+                              attempt3LetterStyles, attempt3);
+                        });
+                        _showResult(value, "Etkileyici!");
+                        _clearInput();
+                      } else {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Text(
+                                  "$attempt3 doğru bir 5 harfli kelime değil!");
+                            });
+                      }
                     }
                     break;
                   case 3:
                     if (attempt4.length == 5) {
-                      setState(() {
-                        attemptCtr++;
-                        _handleAttemptLetterStyle(
-                            attempt4LetterStyles, attempt4);
-                      });
-                      _showResult(value, "Parlak Zeka!");
-                      _clearInput();
+                      if (Words.words.contains(attempt4)) {
+                        setState(() {
+                          attemptCtr++;
+                          _handleAttemptLetterStyle(
+                              attempt4LetterStyles, attempt4);
+                        });
+                        _showResult(value, "Çok iyi!");
+                        _clearInput();
+                      } else {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Text(
+                                  "$attempt4 doğru bir 5 harfli kelime değil!");
+                            });
+                      }
                     }
                     break;
                   case 4:
                     if (attempt5.length == 5) {
-                      setState(() {
-                        attemptCtr++;
-                        _handleAttemptLetterStyle(
-                            attempt5LetterStyles, attempt5);
-                      });
-                      _showResult(value, "Çok İyi!");
-                      _clearInput();
+                      if (Words.words.contains(attempt5)) {
+                        setState(() {
+                          attemptCtr++;
+                          _handleAttemptLetterStyle(
+                              attempt5LetterStyles, attempt5);
+                        });
+                        _showResult(value, "İyi deneme!");
+                        _clearInput();
+                      } else {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Text(
+                                  "$attempt5 doğru bir 5 harfli kelime değil!");
+                            });
+                      }
                     }
                     break;
                   case 5:
                     if (attempt6.length == 5) {
-                      setState(() {
-                        attemptCtr++;
-                        _handleAttemptLetterStyle(
-                            attempt6LetterStyles, attempt6);
-                      });
-                      _showResult(value, "Ehh...!");
-                      _clearInput();
+                      if (Words.words.contains(attempt6)) {
+                        setState(() {
+                          attemptCtr++;
+                          _handleAttemptLetterStyle(
+                              attempt6LetterStyles, attempt6);
+                        });
+                        _showResult(value, "Ehh...!");
+                        _clearInput();
+                      } else {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Text(
+                                  "$attempt6 doğru bir 5 harfli kelime değil!");
+                            });
+                      }
                     }
                     break;
                   default:
