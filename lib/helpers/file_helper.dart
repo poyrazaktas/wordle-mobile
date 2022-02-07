@@ -58,9 +58,12 @@ class FileHelper {
     return wordleList.map((wordle) => Wordle.fromMap(wordle)).toList();
   }
 
-  Future<Wordle> getWordle(int index) async{
+  Future<Wordle> getWordle(int index) async {
     var wordleList = await getWordleList();
+    if (index >= wordleList.length) {
+      return wordleList[0];
+    }
+
     return wordleList[index];
   }
-
 }

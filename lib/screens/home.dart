@@ -133,7 +133,6 @@ class _HomeState extends State<Home> {
                     setState(() {
                       resetWordleElements();
                       switchToNextWordle();
-
                     });
                   },
                 )
@@ -184,21 +183,23 @@ class _HomeState extends State<Home> {
     attempt5LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
     attempt6LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
   }
-  
-  void switchToNextWordle() async{
+
+  void switchToNextWordle() async {
     setState(() {
       isWordleLoading = true;
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int newIndex = wordleModel.index! + 1;
-    prefs.setInt("wordleIndex",newIndex );
-    
+
     wordleModel = await FileHelper.instance.getWordle(newIndex);
     wordle = wordleModel.word;
+    prefs.setInt("wordleIndex", wordleModel.index!);
+
     setState(() {
       isWordleLoading = false;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
