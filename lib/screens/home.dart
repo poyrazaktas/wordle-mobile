@@ -81,6 +81,7 @@ class _HomeState extends State<Home> {
     if (attempt.toLowerCase() == wordle) {
       showDialog(
           context: context,
+          barrierDismissible: false,
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text(successMessage),
@@ -112,6 +113,7 @@ class _HomeState extends State<Home> {
       // it denotes there is no more attempts left
       showDialog(
           context: context,
+          barrierDismissible: false,
           builder: (BuildContext context) {
             return AlertDialog(
               title: const Text("Kaybettiniz"),
@@ -223,7 +225,10 @@ class _HomeState extends State<Home> {
           ],
         ),
         body: isWordleLoading
-            ? const Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator(
+              color: Colors.green,
+              strokeWidth: 5.0,
+            ))
             : _buildGameBody());
   }
 
@@ -681,7 +686,6 @@ class _HomeState extends State<Home> {
             _colorBlindModeProvider.colorBlindMode.wrongSpotContainerColor;
         tempWordle[tempWordle.indexOf(attempt[i])] = "";
       }
-      // print(tempWordle.join("").toString());
     }
   }
 
