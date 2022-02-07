@@ -93,6 +93,14 @@ class _HomeState extends State<Home> {
       if (attempt6.length == 5) {
         _handleAttemptLetterStyle(attempt6LetterStyles, attempt6);
       }
+
+      if (attemptList.contains(wordle)) {
+        _showResult(wordle, "Doğru Tahmin!");
+      }
+
+      if (attemptCtr == 6) {
+        _showResult(attempt6, "Ehh.");
+      }
       setState(() {
         isAttemptListLoading = false;
       });
