@@ -57,4 +57,10 @@ class FileHelper {
     final List<dynamic> wordleList = json.decode(content);
     return wordleList.map((wordle) => Wordle.fromMap(wordle)).toList();
   }
+
+  Future<Wordle> getWordle(int index) async{
+    var wordleList = await getWordleList();
+    return wordleList[index];
+  }
+
 }

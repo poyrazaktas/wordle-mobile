@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle_turkce/constants/words.dart';
 import 'package:wordle_turkce/helpers/file_helper.dart';
 import 'package:wordle_turkce/models/wordle_model.dart';
@@ -17,21 +18,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int attemptCtr = 0;
+
   String attempt1 = "",
       attempt2 = "",
       attempt3 = "",
       attempt4 = "",
       attempt5 = "",
       attempt6 = "";
-
-  final String wordle = "hızma".toLowerCase();
-
-  final TextStyle _textStyle = const TextStyle(
-      color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24);
-
-  final _defaultContainerColor = Colors.grey.shade800;
-
-  late ColorBlindModeProvider _colorBlindModeProvider;
 
   var attempt1LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
   var attempt2LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
@@ -40,75 +33,41 @@ class _HomeState extends State<Home> {
   var attempt5LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
   var attempt6LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
 
-  var wordleHash = <String, List<int>>{};
+  final _defaultContainerColor = Colors.grey.shade800;
+
+  final TextStyle _textStyle = const TextStyle(
+      color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24);
 
   final inputController = TextEditingController();
+  void _clearInput() {
+    inputController.clear();
+  }
+
+  late ColorBlindModeProvider _colorBlindModeProvider;
+
+  bool isWordleLoading = true;
+  late String wordle;
+
+  @override
+  void initState() {
+    super.initState();
+    initWordle();
+    initContainerStyles();
+  }
 
   void initContainerStyles() {
     _colorBlindModeProvider =
         Provider.of<ColorBlindModeProvider>(context, listen: false);
   }
 
-  void resetWordleElements() {
-    attemptCtr = 0;
-    attempt1 = "";
-    attempt2 = "";
-    attempt3 = "";
-    attempt4 = "";
-    attempt5 = "";
-    attempt6 = "";
-
-    attempt1LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
-    attempt2LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
-    attempt3LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
-    attempt4LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
-    attempt5LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
-    attempt6LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    initContainerStyles();
-    // initalize wordle as hash map
-    for (var i = 0; i < wordle.length; i++) {
-      if (!wordleHash.containsKey(wordle[i])) {
-        wordleHash[wordle[i]] = [];
-        wordleHash[wordle[i]]?.add(i);
-      } else {
-        wordleHash[wordle[i]]?.add(i);
-      }
-    }
-  }
-
-  void _clearInput() {
-    inputController.clear();
-  }
-
-  // X : default container color : ⬛
-  // C : correct container color : 🟩
-  // W : wrong container color : 🟨
-
-  String _maskLetters(attempt) {
-    var attemptHash = List.filled(5, false);
-    var tempWordle = List.from(wordle.characters);
-    List<String> attemptMask = List.filled(5, "⬛");
-
-    for (var i = 0; i < wordle.length; i++) {
-      if (wordle[i] == attempt[i]) {
-        attemptMask[i] = "🟩";
-        attemptHash[i] = true;
-        tempWordle[i] = "";
-      }
-    }
-
-    for (var i = 0; i < wordle.length; i++) {
-      if (attemptHash[i] != true && tempWordle.contains(attempt[i])) {
-        attemptMask[i] = "🟨";
-        tempWordle[tempWordle.indexOf(attempt[i])] = "";
-      }
-    }
-    return attemptMask.join("");
+  void initWordle() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int index = prefs.getInt("wordleIndex")!;
+    Wordle response = await FileHelper.instance.getWordle(index);
+    wordle = response.word;
+    setState(() {
+      isWordleLoading = false;
+    });
   }
 
   void _showResult(String attempt, String successMessage) {
@@ -186,22 +145,17 @@ class _HomeState extends State<Home> {
     }
   }
 
-  String _createLetter(String attempt, index) {
-    try {
-      return attempt[index].replaceAll("i", "İ").toUpperCase();
-    } catch (e) {
-      return "";
-    }
-  }
-
-  void _handleAttemptLetterStyle(
-      List<Color> attemptLetterStyles, String attempt) {
+  String _maskLetters(attempt) {
+    // default container color : ⬛
+    // correct container color : 🟩
+    // wrong container color : 🟨
     var attemptHash = List.filled(5, false);
     var tempWordle = List.from(wordle.characters);
+    List<String> attemptMask = List.filled(5, "⬛");
+
     for (var i = 0; i < wordle.length; i++) {
       if (wordle[i] == attempt[i]) {
-        attemptLetterStyles[i] =
-            _colorBlindModeProvider.colorBlindMode.correctSpotContainerColor;
+        attemptMask[i] = "🟩";
         attemptHash[i] = true;
         tempWordle[i] = "";
       }
@@ -209,12 +163,54 @@ class _HomeState extends State<Home> {
 
     for (var i = 0; i < wordle.length; i++) {
       if (attemptHash[i] != true && tempWordle.contains(attempt[i])) {
-        attemptLetterStyles[i] =
-            _colorBlindModeProvider.colorBlindMode.wrongSpotContainerColor;
+        attemptMask[i] = "🟨";
         tempWordle[tempWordle.indexOf(attempt[i])] = "";
       }
-      // print(tempWordle.join("").toString());
     }
+    return attemptMask.join("");
+  }
+
+  void resetWordleElements() {
+    attemptCtr = 0;
+    attempt1 = "";
+    attempt2 = "";
+    attempt3 = "";
+    attempt4 = "";
+    attempt5 = "";
+    attempt6 = "";
+
+    attempt1LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+    attempt2LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+    attempt3LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+    attempt4LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+    attempt5LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+    attempt6LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          leading: GestureDetector(
+            child: const Icon(Icons.help),
+            onTap: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => HowToPlay()),
+          ),
+          title: const Text("WORDLE TÜRKÇE"),
+          centerTitle: true,
+          actions: [
+            GestureDetector(
+              child: const Icon(Icons.settings),
+              onTap: () => showDialog(
+                  context: context,
+                  builder: (BuildContext context) => const Settings()),
+            ),
+          ],
+        ),
+        body: isWordleLoading
+            ? const Center(child: CircularProgressIndicator())
+            : _buildGameBody());
   }
 
   Widget _buildGameBody() {
@@ -630,48 +626,34 @@ class _HomeState extends State<Home> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-          child: const Icon(Icons.help),
-          onTap: () => showDialog(
-              context: context, builder: (BuildContext context) => HowToPlay()),
-        ),
-        title: const Text("WORDLE TÜRKÇE"),
-        centerTitle: true,
-        actions: [
-          GestureDetector(
-            child: const Icon(Icons.settings),
-            onTap: () => showDialog(
-                context: context,
-                builder: (BuildContext context) => const Settings()),
-          ),
-        ],
-      ),
-      body: FutureBuilder<List<Wordle>>(
-        future: FileHelper.instance.getWordleList(),
-        builder: (BuildContext context, AsyncSnapshot<List<Wordle>> snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(
-              child: Text("Loading..."),
-            );
-          }
-          return snapshot.data!.isEmpty
-              ? const Center(
-                  child: Text("No wordles"),
-                )
-              : ListView(
-                  children: snapshot.data!.map((wordle) {
-                    return Center(
-                        child: ListTile(
-                      title: Text("${wordle.index} ${wordle.word}"),
-                    ));
-                  }).toList(),
-                );
-        },
-      ),
-    );
+  String _createLetter(String attempt, index) {
+    try {
+      return attempt[index].replaceAll("i", "İ").toUpperCase();
+    } catch (e) {
+      return "";
+    }
+  }
+
+  void _handleAttemptLetterStyle(
+      List<Color> attemptLetterStyles, String attempt) {
+    var attemptHash = List.filled(5, false);
+    var tempWordle = List.from(wordle.characters);
+    for (var i = 0; i < wordle.length; i++) {
+      if (wordle[i] == attempt[i]) {
+        attemptLetterStyles[i] =
+            _colorBlindModeProvider.colorBlindMode.correctSpotContainerColor;
+        attemptHash[i] = true;
+        tempWordle[i] = "";
+      }
+    }
+
+    for (var i = 0; i < wordle.length; i++) {
+      if (attemptHash[i] != true && tempWordle.contains(attempt[i])) {
+        attemptLetterStyles[i] =
+            _colorBlindModeProvider.colorBlindMode.wrongSpotContainerColor;
+        tempWordle[tempWordle.indexOf(attempt[i])] = "";
+      }
+      // print(tempWordle.join("").toString());
+    }
   }
 }
