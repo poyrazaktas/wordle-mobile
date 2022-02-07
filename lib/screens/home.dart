@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wordle_turkce/constants/words.dart';
+import 'package:wordle_turkce/helpers/file_helper.dart';
+import 'package:wordle_turkce/models/wordle_model.dart';
 import 'package:wordle_turkce/provider/color_blind_mode_provider.dart';
 import 'package:wordle_turkce/widgets/how_to_play_widget.dart';
 import 'package:wordle_turkce/widgets/settings_widget.dart';
@@ -648,7 +650,28 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      body: _buildGameBody(),
+      body: FutureBuilder<List<Wordle>>(
+        future: FileHelper.instance.getWordleList(),
+        builder: (BuildContext context, AsyncSnapshot<List<Wordle>> snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: Text("Loading..."),
+            );
+          }
+          return snapshot.data!.isEmpty
+              ? const Center(
+                  child: Text("No wordles"),
+                )
+              : ListView(
+                  children: snapshot.data!.map((wordle) {
+                    return Center(
+                        child: ListTile(
+                      title: Text("${wordle.index} ${wordle.word}"),
+                    ));
+                  }).toList(),
+                );
+        },
+      ),
     );
   }
 }
