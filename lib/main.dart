@@ -13,6 +13,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   var prefs = await SharedPreferences.getInstance();
+
   await readWordsJson();
 
   bool isDarkMode;
@@ -30,6 +31,10 @@ Future<void> main() async {
   } else {
     prefs.setBool("isColorBlindModeActive", false);
     isColorBlindModeActive = false;
+  }
+
+  if (!prefs.containsKey("wordleIndex")) {
+    prefs.setInt("wordleIndex", 0);
   }
 
   return runApp(MultiProvider(providers: [
