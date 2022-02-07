@@ -39,9 +39,7 @@ class _HomeState extends State<Home> {
       color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24);
 
   final inputController = TextEditingController();
-  void _clearInput() {
-    inputController.clear();
-  }
+  final inputNode = FocusNode();
 
   late ColorBlindModeProvider _colorBlindModeProvider;
 
@@ -472,6 +470,7 @@ class _HomeState extends State<Home> {
                 border: Border.all(color: Colors.white)),
             child: TextField(
               controller: inputController,
+              focusNode: inputNode,
               autofocus: true,
               maxLength: 5,
               onChanged: (value) {
@@ -671,5 +670,11 @@ class _HomeState extends State<Home> {
       }
       // print(tempWordle.join("").toString());
     }
+  }
+
+  void _clearInput() {
+    inputController.clear();
+    //focus to inputController
+    inputNode.requestFocus();
   }
 }
