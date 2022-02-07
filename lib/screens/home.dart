@@ -38,8 +38,10 @@ class _HomeState extends State<Home> {
   final TextStyle _textStyle = const TextStyle(
       color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24);
 
-  final inputController = TextEditingController();
-  final inputNode = FocusNode();
+  final _inputController = TextEditingController();
+  final _inputFocusNode = FocusNode();
+
+  final _scrollController = ScrollController();
 
   late ColorBlindModeProvider _colorBlindModeProvider;
 
@@ -230,6 +232,7 @@ class _HomeState extends State<Home> {
       children: [
         Expanded(
           child: SingleChildScrollView(
+            controller: _scrollController,
             child: GridView.count(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
@@ -469,8 +472,8 @@ class _HomeState extends State<Home> {
                 borderRadius: const BorderRadius.all(Radius.circular(5)),
                 border: Border.all(color: Colors.white)),
             child: TextField(
-              controller: inputController,
-              focusNode: inputNode,
+              controller: _inputController,
+              focusNode: _inputFocusNode,
               autofocus: true,
               maxLength: 5,
               onChanged: (value) {
@@ -519,6 +522,7 @@ class _HomeState extends State<Home> {
                           _handleAttemptLetterStyle(
                               attempt1LetterStyles, attempt1);
                         });
+
                         _showResult(value, "Dahisin!");
                         _clearInput();
                       } else {
@@ -539,6 +543,10 @@ class _HomeState extends State<Home> {
                           _handleAttemptLetterStyle(
                               attempt2LetterStyles, attempt2);
                         });
+                        _scrollController.animateTo(
+                            _scrollController.position.maxScrollExtent / 2,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.ease);
                         _showResult(value, "Harika!");
                         _clearInput();
                       } else {
@@ -579,6 +587,10 @@ class _HomeState extends State<Home> {
                           _handleAttemptLetterStyle(
                               attempt4LetterStyles, attempt4);
                         });
+                        _scrollController.animateTo(
+                            _scrollController.position.maxScrollExtent,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.ease);
                         _showResult(value, "Çok iyi!");
                         _clearInput();
                       } else {
@@ -599,6 +611,7 @@ class _HomeState extends State<Home> {
                           _handleAttemptLetterStyle(
                               attempt5LetterStyles, attempt5);
                         });
+
                         _showResult(value, "İyi deneme!");
                         _clearInput();
                       } else {
@@ -673,8 +686,8 @@ class _HomeState extends State<Home> {
   }
 
   void _clearInput() {
-    inputController.clear();
+    _inputController.clear();
     //focus to inputController
-    inputNode.requestFocus();
+    _inputFocusNode.requestFocus();
   }
 }
