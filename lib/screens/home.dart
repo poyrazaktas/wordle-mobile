@@ -47,6 +47,7 @@ class _HomeState extends State<Home> {
 
   bool isWordleLoading = true;
   late String wordle;
+  late Wordle wordleModel;
 
   @override
   void initState() {
@@ -55,19 +56,19 @@ class _HomeState extends State<Home> {
     initContainerStyles();
   }
 
-  void initContainerStyles() {
-    _colorBlindModeProvider =
-        Provider.of<ColorBlindModeProvider>(context, listen: false);
-  }
-
   void initWordle() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int index = prefs.getInt("wordleIndex")!;
-    Wordle response = await FileHelper.instance.getWordle(index);
-    wordle = response.word;
+    wordleModel = await FileHelper.instance.getWordle(index);
+    wordle = wordleModel.word;
     setState(() {
       isWordleLoading = false;
     });
+  }
+
+  void initContainerStyles() {
+    _colorBlindModeProvider =
+        Provider.of<ColorBlindModeProvider>(context, listen: false);
   }
 
   void _showResult(String attempt, String successMessage) {
@@ -99,10 +100,8 @@ class _HomeState extends State<Home> {
                   onTap: () {
                     Navigator.of(context).pop();
                     setState(() {
-                      // wordle wordles tablosundan kaldırılacak
-                      // random wordle databaseden gelecek
-                      // attemptCtr
                       resetWordleElements();
+                      switchToNextWordle();
                     });
                   },
                 )
@@ -132,10 +131,9 @@ class _HomeState extends State<Home> {
                   onTap: () {
                     Navigator.of(context).pop();
                     setState(() {
-                      // wordle wordles tablosundan kaldırılacak
-                      // random wordle databaseden gelecek
-                      // attemptCtr
                       resetWordleElements();
+                      switchToNextWordle();
+
                     });
                   },
                 )
@@ -186,7 +184,21 @@ class _HomeState extends State<Home> {
     attempt5LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
     attempt6LetterStyles = List<Color>.filled(5, Colors.grey.shade800);
   }
-
+  
+  void switchToNextWordle() async{
+    setState(() {
+      isWordleLoading = true;
+    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int newIndex = wordleModel.index! + 1;
+    prefs.setInt("wordleIndex",newIndex );
+    
+    wordleModel = await FileHelper.instance.getWordle(newIndex);
+    wordle = wordleModel.word;
+    setState(() {
+      isWordleLoading = false;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
