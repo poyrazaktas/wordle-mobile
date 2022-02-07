@@ -117,6 +117,7 @@ class _HomeState extends State<Home> {
               title: const Text("Kaybettiniz"),
               actionsAlignment: MainAxisAlignment.spaceBetween,
               actionsPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
+              content: Text("Wordle : $wordle"),
               actions: [
                 GestureDetector(
                     child: const Icon(
@@ -230,233 +231,235 @@ class _HomeState extends State<Home> {
     return Column(
       children: [
         Expanded(
-          child: GridView.count(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            primary: false,
-            padding: const EdgeInsets.all(50),
-            crossAxisSpacing: 3,
-            mainAxisSpacing: 5,
-            crossAxisCount: 5,
-            children: [
-              //attempt1
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt1, 0).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt1LetterStyles[0]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt1, 1).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt1LetterStyles[1]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt1, 2).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt1LetterStyles[2]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt1, 3).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt1LetterStyles[3]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt1, 4).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt1LetterStyles[4]),
-              //attempt2
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt2, 0).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt2LetterStyles[0]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt2, 1).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt2LetterStyles[1]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt2, 2).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt2LetterStyles[2]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt2, 3).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt2LetterStyles[3]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt2, 4).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt2LetterStyles[4]),
-              //attempt3
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt3, 0).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt3LetterStyles[0]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt3, 1).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt3LetterStyles[1]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt3, 2).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt3LetterStyles[2]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt3, 3).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt3LetterStyles[3]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt3, 4).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt3LetterStyles[4]),
-              //attempt4
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt4, 0).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt4LetterStyles[0]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt4, 1).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt4LetterStyles[1]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt4, 2).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt4LetterStyles[2]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt4, 3).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt4LetterStyles[3]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt4, 4).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt4LetterStyles[4]),
-              //attempt5
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt5, 0).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt5LetterStyles[0]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt5, 1).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt5LetterStyles[1]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt5, 2).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt5LetterStyles[2]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt5, 3).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt5LetterStyles[3]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt5, 4).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt5LetterStyles[4]),
-              //attempt6
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt6, 0).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt6LetterStyles[0]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt6, 1).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt6LetterStyles[1]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt6, 2).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt6LetterStyles[2]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt6, 3).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt6LetterStyles[3]),
-              Container(
-                  child: Center(
-                      child: Text(
-                    _createLetter(attempt6, 4).toUpperCase(),
-                    style: _textStyle,
-                  )),
-                  color: attempt6LetterStyles[4]),
-            ],
+          child: SingleChildScrollView(
+            child: GridView.count(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              primary: false,
+              padding: const EdgeInsets.all(50),
+              crossAxisSpacing: 3,
+              mainAxisSpacing: 5,
+              crossAxisCount: 5,
+              children: [
+                //attempt1
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt1, 0).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt1LetterStyles[0]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt1, 1).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt1LetterStyles[1]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt1, 2).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt1LetterStyles[2]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt1, 3).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt1LetterStyles[3]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt1, 4).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt1LetterStyles[4]),
+                //attempt2
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt2, 0).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt2LetterStyles[0]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt2, 1).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt2LetterStyles[1]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt2, 2).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt2LetterStyles[2]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt2, 3).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt2LetterStyles[3]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt2, 4).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt2LetterStyles[4]),
+                //attempt3
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt3, 0).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt3LetterStyles[0]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt3, 1).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt3LetterStyles[1]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt3, 2).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt3LetterStyles[2]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt3, 3).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt3LetterStyles[3]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt3, 4).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt3LetterStyles[4]),
+                //attempt4
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt4, 0).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt4LetterStyles[0]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt4, 1).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt4LetterStyles[1]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt4, 2).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt4LetterStyles[2]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt4, 3).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt4LetterStyles[3]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt4, 4).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt4LetterStyles[4]),
+                //attempt5
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt5, 0).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt5LetterStyles[0]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt5, 1).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt5LetterStyles[1]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt5, 2).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt5LetterStyles[2]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt5, 3).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt5LetterStyles[3]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt5, 4).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt5LetterStyles[4]),
+                //attempt6
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt6, 0).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt6LetterStyles[0]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt6, 1).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt6LetterStyles[1]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt6, 2).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt6LetterStyles[2]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt6, 3).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt6LetterStyles[3]),
+                Container(
+                    child: Center(
+                        child: Text(
+                      _createLetter(attempt6, 4).toUpperCase(),
+                      style: _textStyle,
+                    )),
+                    color: attempt6LetterStyles[4]),
+              ],
+            ),
           ),
         ),
         Padding(
