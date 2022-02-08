@@ -121,7 +121,7 @@ class _HomeState extends State<Home> {
   void initContainerStyles() {
     _colorBlindModeProvider =
         Provider.of<ColorBlindModeProvider>(context, listen: false);
-        // add listener to _colorBlindModeProvider
+    // add listener to _colorBlindModeProvider
     _colorBlindModeProvider.addListener(() {
       setState(() {
         initContainerStyles();
@@ -153,7 +153,9 @@ class _HomeState extends State<Home> {
                       color: Colors.green,
                     ),
                     onTap: () {
-                      FlutterClipboard.copy(mappedAttempts.join("\n"));
+                      FlutterClipboard.copy(
+                          "${wordleModel.index! + 1}. Wordle : $wordle \n" +
+                              mappedAttempts.join("\n"));
                     }),
                 GestureDetector(
                   child: const Text("Tekrar Oyna"),
@@ -186,7 +188,9 @@ class _HomeState extends State<Home> {
                       color: Colors.green,
                     ),
                     onTap: () {
-                      FlutterClipboard.copy(mappedAttempts.join("\n"));
+                      FlutterClipboard.copy(
+                          "${wordleModel.index! + 1}. Wordle : $wordle \n" +
+                              mappedAttempts.join("\n"));
                     }),
                 GestureDetector(
                   child: const Text("Tekrar Oyna"),
