@@ -34,14 +34,20 @@ class HowToPlay extends StatelessWidget {
             ),
             Column(
               children: [
-                const Text("NASIL OYNANIR?\n",style: TextStyle(fontWeight: FontWeight.bold),),
+                const Text(
+                  "NASIL OYNANIR?\n",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 const Text("WORDLE'i 6 denemede bulun.\n"),
                 const Text(
                     "Her tahmin 5 harfli doğru bir kelime olmalıdır. Göndermek için enter'a basın.\n"),
                 const Text(
                     "Her tahminden sonra kutucukların renkleri tahmininizin yakınlığına göre değişecektir.\n"),
-                const Divider(thickness: 2.0,),
-                const Text("Örnekler",style: TextStyle(fontWeight: FontWeight.bold)),
+                const Divider(
+                  thickness: 2.0,
+                ),
+                const Text("Örnekler",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                 Expanded(
                   child: GridView.count(
                     scrollDirection: Axis.vertical,
