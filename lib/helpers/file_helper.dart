@@ -36,7 +36,7 @@ class FileHelper {
 
     // create wordle list from shuffledWordList
     var wordleList = <Map<String, dynamic>>[];
-    for (var i = 0; i < shuffledWordList.length; i++) {
+    for (var i = 0; i < 100; i++) {
       var word = shuffledWordList[i];
       var wordle = Wordle(
         word: word,
@@ -61,9 +61,18 @@ class FileHelper {
   Future<Wordle> getWordle(int index) async {
     var wordleList = await getWordleList();
     if (index >= wordleList.length) {
-      return wordleList[0];
+      await removeFile();
+      await _initFile();
+      var newWordleList = await getWordleList();
+      return newWordleList[0];
     }
 
     return wordleList[index];
+  }
+
+  // remove file
+  Future removeFile() async {
+    final file = await this.file;
+    await file.delete();
   }
 }

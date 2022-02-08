@@ -121,6 +121,13 @@ class _HomeState extends State<Home> {
   void initContainerStyles() {
     _colorBlindModeProvider =
         Provider.of<ColorBlindModeProvider>(context, listen: false);
+        // add listener to _colorBlindModeProvider
+    _colorBlindModeProvider.addListener(() {
+      setState(() {
+        initContainerStyles();
+        initAttempts();
+      });
+    });
   }
 
   void _showResult(String attempt, String successMessage) {
@@ -293,6 +300,16 @@ class _HomeState extends State<Home> {
   Widget _buildGameBody() {
     return Column(
       children: [
+        Container(
+            alignment: Alignment.topCenter,
+            margin: const EdgeInsets.only(right: 50, left: 50, top: 20),
+            child: LinearProgressIndicator(
+              value: wordleModel.index! / 100,
+              backgroundColor: _defaultContainerColor,
+              minHeight: 8,
+              color: _colorBlindModeProvider
+                  .colorBlindMode.correctSpotContainerColor,
+            )),
         Expanded(
           child: SingleChildScrollView(
             controller: _scrollController,
