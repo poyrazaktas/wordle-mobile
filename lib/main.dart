@@ -64,6 +64,7 @@ class MyApp extends StatelessWidget {
         builder: (_, themeMode, colorBlindMode, child) {
       return MaterialApp(
         title: 'WORDLE TÜRKÇE',
+        debugShowCheckedModeBanner: false,
         themeMode: themeMode.themeMode,
         theme: MyThemes.lightTheme,
         darkTheme: MyThemes.darkTheme,
