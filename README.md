@@ -9,5 +9,7 @@ The way I manage attempts is a little dirty so I am open to any suggestions and 
 
 
 
-https://user-images.githubusercontent.com/56718583/153901341-bdaf9470-f438-4e3c-aa5d-bea04e776382.mp4
+
+
+https://user-images.githubusercontent.com/56718583/153901890-9c49d9bb-c759-4f90-a55a-0e359513e366.mp4
 
